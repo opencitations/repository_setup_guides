@@ -42,6 +42,12 @@ export default defineConfig({
 						{ label: 'Releases', slug: 'ci_cd/releases' },
 					],
 				},
+				{
+					label: 'Documentation',
+					items: [
+						{ label: 'Starlight setup', slug: 'documentation/starlight_setup' },
+					],
+				},
 			],
 		}),
 	],
