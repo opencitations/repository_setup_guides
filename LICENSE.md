@@ -1,6 +1,6 @@
 ISC license (ISC)
 ==================================
-_Copyright 2025 Arcangelo Massari_
+_Copyright 2025 Arcangelo Massari <arcangelo.massari@unibo.it>_
 
 Permission to use, copy, modify, and/or distribute this software for any purpose with or
 without fee is hereby granted, provided that the above copyright notice and this permission
