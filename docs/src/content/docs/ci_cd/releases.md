@@ -3,11 +3,11 @@ title: Automating releases with GitHub Actions and Semantic Release
 description: Set up automated version bumping, changelog generation, GitHub releases, and PyPI publishing
 ---
 
-Automating the release process ensures consistency, reduces manual effort, and integrates seamlessly with Semantic Commits. This guide explains how to set up a [GitHub Actions](/repository_setup_guides/ci_cd/github_actions_basics/) workflow, inspired by this project's `release.yml`, to automatically handle version bumping, changelog generation, GitHub releases, and PyPI publishing using the [`semantic-release`](https://semantic-release.gitbook.io/) tool.
+Automating the release process supports consistent versioning and integrates with Semantic Commits. This guide explains how to set up a [GitHub Actions](/repository_setup_guides/ci_cd/github_actions_basics/) workflow, inspired by this project's `release.yml`, to handle version bumping, changelog generation, GitHub releases, and PyPI publishing using the [`semantic-release`](https://semantic-release.gitbook.io/) tool.
 
 ## Prerequisites
 
--   **Semantic commits:** your project **must** consistently use [Semantic commit messages](/repository_setup_guides/version_control/semantic_commits/). `semantic-release` relies on these messages to determine the next version number and generate changelogs.
+-   **Semantic commits:** your project uses [Semantic commit messages](/repository_setup_guides/version_control/semantic_commits/). `semantic-release` relies on these messages to determine the next version number and generate changelogs.
 -   **UV project:** this guide assumes a Python project managed with [UV](/repository_setup_guides/virtual_environments/uv_setup/), ready for building and publishing.
 -   **Testing workflow:** a separate GitHub Actions workflow (e.g., `run-tests.yml` as described in the [Automated testing guide](/repository_setup_guides/ci_cd/automated_testing/)) that runs your tests. The release workflow will trigger upon successful completion of the test workflow.
 -   **PyPI token:** a PyPI API token stored as a secret (e.g., `PYPI_TOKEN`) in your GitHub repository settings (`Settings > Secrets and variables > Actions`).
@@ -146,12 +146,12 @@ jobs:
 ### Explanation:
 
 1.  **`on.workflow_run`**: triggers when the specified workflow (`Run tests`) completes on the `master` branch (see [GitHub Actions basics](/repository_setup_guides/ci_cd/github_actions_basics/#events) for more on triggers).
-2.  **`if: github.event.workflow_run.conclusion == 'success' && contains(...)`**: ensures the job only runs if tests passed *and* the triggering commit message included `[release]`. This prevents accidental releases.
-3.  **`permissions`**: grants necessary permissions for `semantic-release` to push commits/tags and interact with GitHub releases/issues.
-4.  **Checkout**: fetches the code. `fetch-depth: 0` is crucial for `semantic-release` to analyze all relevant history.
+2.  **`if: github.event.workflow_run.conclusion == 'success' && contains(...)`**: runs the job only if tests passed and the triggering commit message included `[release]`.
+3.  **`permissions`**: grants permissions for `semantic-release` to push commits/tags and interact with GitHub releases/issues.
+4.  **Checkout**: fetches the code. `fetch-depth: 0` is required for `semantic-release` to analyze all relevant history.
 5.  **Install UV and dependencies**: installs UV with caching enabled, installs Python, and syncs project dependencies using [UV](/repository_setup_guides/virtual_environments/uv_setup/).
 6.  **Setup Node.js**: installs Node.js, as `semantic-release` is a Node.js application.
 7.  **Install semantic-release plugins**: installs `semantic-release` and its configured plugins globally using `npm`.
 8.  **Run semantic-release**: executes `semantic-release` using `npx`. Environment variables `GITHUB_TOKEN` (automatically provided by Actions) and your `PYPI_TOKEN` secret are made available. `semantic-release` reads its configuration, analyzes commits, performs versioning, generates notes, tags, creates the GitHub release, and triggers configured publishing steps (like the `@semantic-release/exec` command or other plugins).
 
-This setup provides a robust, automated release process tightly coupled with your development workflow and commit conventions.
+This setup provides automated release workflow integration with semantic commits.

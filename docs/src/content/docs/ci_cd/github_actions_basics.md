@@ -3,7 +3,7 @@ title: GitHub Actions basics
 description: Core concepts and workflow syntax for automating build, test, and deployment pipelines with GitHub Actions
 ---
 
-GitHub Actions is a powerful and flexible automation platform integrated directly into GitHub. It allows you to automate your build, test, and deployment pipeline right from your repository.
+GitHub Actions is an automation platform integrated into GitHub. It provides build, test, and deployment automation within your repository.
 
 ## Core concepts
 
@@ -50,7 +50,7 @@ jobs:
 
       # Step 2: run a simple shell command
       - name: Say hello
-        run: echo "Hello, GitHub Actions!"
+        run: echo "Hello, GitHub Actions"
 
       # Step 3: run a multi-line script
       - name: Multi-line script
@@ -59,7 +59,7 @@ jobs:
           echo "This is the second line."
 ```
 
-### Key elements:
+### Key elements
 
 -   `name`: the name displayed for the workflow.
 -   `on`: defines the event(s) that trigger the workflow. See [Events that trigger workflows](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows) for a full list.
@@ -68,7 +68,7 @@ jobs:
 -   `runs-on`: specifies the type of runner (e.g., `ubuntu-latest`, `windows-latest`, `macos-latest`).
 -   `steps`: a sequence of tasks within a job.
 -   `steps.name`: an optional name for the step.
--   `steps.uses`: specifies an action to run (e.g., `actions/checkout@v4`). Always use a specific version tag or commit SHA for security and stability.
+-   `steps.uses`: specifies an action to run (e.g., `actions/checkout@v4`). Using a specific version tag or commit SHA provides version stability.
 -   `steps.run`: executes command-line programs using the operating system's shell.
 
 ## How it works

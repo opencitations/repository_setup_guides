@@ -1,8 +1,6 @@
-// @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
-// https://astro.build/config
 export default defineConfig({
 	// GitHub Pages configuration
 	site: 'https://opencitations.github.io',
@@ -10,27 +8,18 @@ export default defineConfig({
 
 	integrations: [
 		starlight({
-			title: 'Repository Setup Guides',
+			title: 'Repository setup guides',
 			description: 'Collection of guides for setting up and maintaining software development repositories',
 
-			// Social links in header
 			social: [
 				{ icon: 'github', label: 'GitHub', href: 'https://github.com/opencitations/repository_setup_guides' },
 			],
 
-			// Enable edit links
-			editLink: {
-				baseUrl: 'https://github.com/opencitations/repository_setup_guides/edit/main/docs/',
-			},
-
-			// Sidebar navigation with nested categories
 			sidebar: [
 				{
-					label: 'CI/CD',
+					label: 'Virtual environments',
 					items: [
-						{ label: 'GitHub Actions basics', slug: 'ci_cd/github_actions_basics' },
-						{ label: 'Automated testing', slug: 'ci_cd/automated_testing' },
-						{ label: 'Releases', slug: 'ci_cd/releases' },
+						{ label: 'UV setup', slug: 'virtual_environments/uv_setup' },
 					],
 				},
 				{
@@ -40,9 +29,11 @@ export default defineConfig({
 					],
 				},
 				{
-					label: 'Virtual environments',
+					label: 'CI/CD',
 					items: [
-						{ label: 'UV setup', slug: 'virtual_environments/uv_setup' },
+						{ label: 'GitHub Actions basics', slug: 'ci_cd/github_actions_basics' },
+						{ label: 'Automated testing', slug: 'ci_cd/automated_testing' },
+						{ label: 'Releases', slug: 'ci_cd/releases' },
 					],
 				},
 			],

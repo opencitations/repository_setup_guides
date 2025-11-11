@@ -6,8 +6,8 @@ hero:
   title: Repository setup guides
   tagline: Collection of guides covering CI/CD, version control, and virtual environment management for Python development workflows
   actions:
-    - text: Get started with GitHub Actions
-      link: /repository_setup_guides/ci_cd/github_actions_basics/
+    - text: Get started with UV setup
+      link: /repository_setup_guides/virtual_environments/uv_setup/
       icon: right-arrow
       variant: primary
     - text: View on GitHub
@@ -20,34 +20,34 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
 
 ## What you'll find here
 
-This collection provides practical, copy-paste ready guides for setting up and maintaining modern Python development repositories. All guides emphasize automation, best practices, and tools that work together seamlessly.
+This collection provides guides for setting up and maintaining Python development repositories. The guides cover automation, best practices, and integrated tooling.
 
 <CardGrid>
-  <Card title="CI/CD automation" icon="rocket">
-    Learn to automate testing, releases, and deployment with GitHub Actions. Includes matrix testing, semantic releases, and PyPI publishing.
+  <Card title="Virtual environments" icon="puzzle">
+    Set up projects with UV, a Python package manager that provides reproducible dependency resolution and Python version management.
   </Card>
   <Card title="Version control" icon="pencil">
-    Master semantic commits using the Conventional Commits specification for readable history and automated versioning.
+    Use semantic commits with the Conventional Commits specification for readable history and automated versioning.
   </Card>
-  <Card title="Virtual environments" icon="puzzle">
-    Set up projects with UV, the extremely fast Python package manager that replaces pip, poetry, pyenv, and virtualenv.
+  <Card title="CI/CD automation" icon="rocket">
+    Learn to automate testing, releases, and deployment with GitHub Actions. Includes matrix testing, semantic releases, and PyPI publishing.
   </Card>
 </CardGrid>
 
 ## Quick navigation
 
+- **[UV setup](/repository_setup_guides/virtual_environments/uv_setup/)** - Complete UV guide from installation to publishing
+- **[Semantic commits](/repository_setup_guides/version_control/semantic_commits/)** - Conventional Commits specification
 - **[GitHub Actions basics](/repository_setup_guides/ci_cd/github_actions_basics/)** - Core concepts and workflow syntax
 - **[Automated testing](/repository_setup_guides/ci_cd/automated_testing/)** - Set up pytest with UV in CI/CD
 - **[Automated releases](/repository_setup_guides/ci_cd/releases/)** - Version bumping and publishing with semantic-release
-- **[Semantic commits](/repository_setup_guides/version_control/semantic_commits/)** - Conventional Commits specification
-- **[UV setup](/repository_setup_guides/virtual_environments/uv_setup/)** - Complete UV guide from installation to publishing
 
 ## Why these tools?
 
-The guides focus on modern, fast, and maintainable tooling:
+The guides focus on tooling that supports reproducibility and automation:
 
-- **UV**: 10-100x faster than traditional Python tools, with unified dependency and Python version management
-- **GitHub Actions**: Native CI/CD platform with excellent ecosystem and tight GitHub integration
-- **Semantic commits**: Enables automated versioning and changelog generation while improving code history readability
+- **UV**: Provides reproducible dependency resolution through lock files and manages Python versions alongside project dependencies
+- **Semantic commits**: Enables automated versioning and changelog generation through structured commit messages
+- **GitHub Actions**: Native CI/CD platform integrated with GitHub repositories
 
-All guides include real-world examples from the opencitations repositories.
+All guides include real-world examples from the OpenCitations repositories.

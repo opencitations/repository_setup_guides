@@ -1,15 +1,15 @@
 ---
 title: Setting up a project with UV
-description: Complete guide to UV, the extremely fast Python package and project manager
+description: Guide to UV, a Python package and project manager
 ---
 
-[UV](https://docs.astral.sh/uv/) is an extremely fast Python package manager and project manager written in Rust. It replaces multiple tools (pip, pipx, pyenv, virtualenv, poetry) with a single, unified interface. UV is 10-100x faster than traditional Python tools and follows modern Python packaging standards (PEP 621, PEP 735).
+[UV](https://docs.astral.sh/uv/) is a Python package manager and project manager written in Rust. It provides dependency management, Python version control, and package building capabilities. UV follows Python packaging standards (PEP 621, PEP 735) and generates reproducible dependency snapshots through lock files.
 
 ## Installation
 
 Follow the official [installation instructions](https://docs.astral.sh/uv/getting-started/installation/) for your operating system.
 
-### Standalone installer (recommended)
+### Standalone installer
 
 **macOS/Linux:**
 ```bash
@@ -56,7 +56,7 @@ For other installation methods, use the respective package manager's update comm
 
 ## Initializing a new project
 
-UV provides flexible project initialization depending on your needs.
+UV supports different project initialization modes.
 
 ### Create a new application
 
@@ -178,7 +178,7 @@ uv remove --dev pytest
 
 ### The `uv.lock` file
 
-The `uv.lock` file records the exact versions of all installed dependencies (including transitive dependencies). **You should commit this file to your version control repository.** This ensures that everyone working on the project, as well as your CI/CD pipelines, uses the exact same versions of all dependencies, guaranteeing reproducible builds.
+The `uv.lock` file records the exact versions of all installed dependencies (including transitive dependencies). Committing this file to version control allows all developers and CI/CD pipelines to use identical dependency versions, enabling reproducible builds.
 
 ### Installing dependencies
 
@@ -217,14 +217,14 @@ This will update `uv.lock` with the latest compatible versions according to the 
 
 ## Running commands
 
-UV provides the `uv run` command to execute commands within your project's virtual environment. The environment is automatically synced before each run, ensuring consistency.
+UV provides the `uv run` command to execute commands within your project's virtual environment. The environment is synced before each run.
 
 ```bash
 uv run python my_script.py
 uv run pytest
 ```
 
-This executes the specified command within the project's virtual environment without explicitly activating a shell. **UV automatically ensures the environment is synchronized with `uv.lock` before running the command.** This is the recommended approach for scripts and CI/CD pipelines (see examples in the [Automated testing](/repository_setup_guides/ci_cd/automated_testing/) and [Automated releases](/repository_setup_guides/ci_cd/releases/) guides).
+This executes the specified command within the project's virtual environment without explicitly activating a shell. UV synchronizes the environment with `uv.lock` before running the command. See examples in the [Automated testing](/repository_setup_guides/ci_cd/automated_testing/) and [Automated releases](/repository_setup_guides/ci_cd/releases/) guides.
 
 ## Python version management
 
@@ -308,4 +308,4 @@ These commands automatically update the `version` field in the `[project]` secti
 
 ## Conclusion
 
-UV streamlines Python project setup, dependency management, and packaging with exceptional performance. By using the standard `pyproject.toml` format and `uv.lock` file, it ensures consistency and reproducibility across different development and deployment environments. Its unified approach replaces multiple tools with a single, fast, and modern solution.
+UV provides Python project setup, dependency management, and packaging capabilities. The `pyproject.toml` format and `uv.lock` file support reproducible builds across different development and deployment environments. UV includes Python version management, dependency resolution, and package building in a single tool.
