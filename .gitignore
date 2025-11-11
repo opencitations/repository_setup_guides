@@ -1,0 +1,5 @@
+# Starlight/Astro build artifacts
+docs/node_modules/
+docs/.astro/
+docs/dist/
+

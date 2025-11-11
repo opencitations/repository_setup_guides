@@ -1,21 +1,39 @@
 # Repository setup guides
 
-This directory contains a collection of guides and tutorials on various aspects of setting up and maintaining software development repositories.
+This repository contains guides for setting up and maintaining Python development repositories.
+## Documentation site
+
+**View the full documentation at: https://opencitations.github.io/repository_setup_guides/**
+
+## Topics covered
+
+-   **CI/CD**: GitHub Actions workflows, automated testing with pytest and UV, automated releases with semantic-release
+-   **Version control**: Semantic commits using the Conventional Commits specification
+-   **Virtual environments**: Complete UV guide from installation to publishing
+
+## Local development
+
+To run the documentation site locally:
+
+```bash
+cd docs
+npm install
+npm run dev
+```
+
+The site will be available at `http://localhost:4321/repository_setup_guides/`
 
 ## Structure
 
-The guides are organized into subdirectories based on their topic:
-
--   `ci_cd/`: Continuous integration and continuous deployment practices (e.g., [GitHub Actions basics](./ci_cd/github_actions_basics.md), [Automated testing](./ci_cd/automated_testing.md), [Automated releases](./ci_cd/releases.md)).
--   `version_control/`: Best practices for version control (e.g., [Semantic commits](./version_control/semantic_commits.md), branching strategies).
--   `virtual_environments/`: Managing project dependencies and virtual environments (e.g., [UV setup](./virtual_environments/uv_setup.md)).
-
-Feel free to contribute new guides or improve existing ones following the established structure.
+The documentation source files are located in:
+-   `docs/src/content/docs/ci_cd/`: Continuous integration and deployment guides
+-   `docs/src/content/docs/version_control/`: Version control best practices
+-   `docs/src/content/docs/virtual_environments/`: Python dependency management
 
 ## Example repositories
 
-Here are some examples of repositories that apply principles discussed in these guides:
+These repositories apply principles discussed in the guides:
 
--   [opencitations/oc_meta](https://github.com/opencitations/oc_meta.git)
--   [opencitations/heritrace](https://github.com/opencitations/heritrace.git)
--   [opencitations/time-agnostic-library](https://github.com/opencitations/time-agnostic-library.git) 
+-   [opencitations/oc_meta](https://github.com/opencitations/oc_meta)
+-   [opencitations/heritrace](https://github.com/opencitations/heritrace)
+-   [opencitations/time-agnostic-library](https://github.com/opencitations/time-agnostic-library)
