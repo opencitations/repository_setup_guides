@@ -1,4 +1,4 @@
-ISC License (ISC) 
+ISC license (ISC)
 ==================================
 _Copyright 2025 Arcangelo Massari_
 

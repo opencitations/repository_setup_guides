@@ -1,4 +1,4 @@
-# Automated Testing with GitHub Actions
+# Automated testing with GitHub Actions
 
 Automating your test suite using [GitHub Actions](./github_actions_basics.md) ensures that your code is tested consistently on every push or pull request, catching regressions early.
 
@@ -15,12 +15,12 @@ This guide demonstrates setting up a workflow to run Python tests using `pytest`
     # other dev dependencies...
     ```
 
-## Example Workflow: Python Tests
+## Example workflow: Python tests
 
 Create a file named `.github/workflows/python-tests.yml`:
 
 ```yaml
-name: Run Python Tests
+name: Run Python tests
 
 on:
   push:
@@ -38,17 +38,17 @@ jobs:
         python-version: ["3.10", "3.11", "3.12", "3.13"]
 
     steps:
-    # Step 1: Check out the repository code
+    # Step 1: check out the repository code
     - name: Check out code
       uses: actions/checkout@v4
 
-    # Step 2: Set up Python environment for the current matrix version
+    # Step 2: set up Python environment for the current matrix version
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
 
-    # Step 3: Install Poetry
+    # Step 3: install Poetry
     # Consider caching Poetry installation for speed
     - name: Install Poetry
       uses: snok/install-poetry@v1
@@ -56,12 +56,12 @@ jobs:
         virtualenvs-create: true # Instruct Poetry to create a .venv
         virtualenvs-in-project: true # Create .venv in project root
 
-    # Step 4: Install dependencies, including development dependencies
+    # Step 4: install dependencies, including development dependencies
     - name: Install dependencies
         run: |
           poetry install --with dev
 
-    # Step 5: Run tests using pytest via poetry run
+    # Step 5: run tests using pytest via poetry run
     - name: Run tests with pytest
       run: poetry run pytest tests/
       # Replace 'tests/' with your actual test directory if different
@@ -83,7 +83,7 @@ jobs:
 
 ## Benefits
 
--   **Consistency:** Tests run in a clean, defined environment every time.
--   **Automation:** Reduces manual effort and ensures tests are always executed.
--   **Early Feedback:** Catches bugs and regressions quickly after code changes.
--   **Confidence:** Increases confidence in merging pull requests and deploying code. 
+-   **Consistency:** tests run in a clean, defined environment every time.
+-   **Automation:** reduces manual effort and ensures tests are always executed.
+-   **Early feedback:** catches bugs and regressions quickly after code changes.
+-   **Confidence:** increases confidence in merging pull requests and deploying code. 

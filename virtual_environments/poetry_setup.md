@@ -1,4 +1,4 @@
-# Setting up a Project with Poetry
+# Setting up a project with Poetry
 
 [Poetry](https://python-poetry.org/) is a tool for dependency management and packaging in Python. It allows you to declare the libraries your project depends on and it will manage (install/update) them for you. It replaces the need for `requirements.txt` files and tools like `pipenv` or `virtualenv` directly.
 
@@ -22,7 +22,7 @@ Verify the installation:
 poetry --version
 ```
 
-## Initializing a New Project
+## Initializing a new project
 
 To start a new project with Poetry, navigate to your desired parent directory and run:
 
@@ -52,7 +52,7 @@ poetry init
 
 This command will interactively guide you through creating the `pyproject.toml` file, which is the heart of a Poetry-managed project. It contains metadata, dependencies, development dependencies, and tool configurations.
 
-## The `pyproject.toml` File
+## The `pyproject.toml` file
 
 Here's an example `pyproject.toml`:
 
@@ -77,13 +77,13 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 ```
 
--   **`[tool.poetry]`**: Core project metadata.
--   **`[tool.poetry.dependencies]`**: Project runtime dependencies. Version constraints follow semantic versioning rules (e.g., `^2.28` means >=2.28.0 and <3.0.0).
--   **`[tool.poetry.group.dev.dependencies]`**: Dependencies only needed for development (like testing or linting tools). These are not installed by default when someone installs your package.
+-   **`[tool.poetry]`**: core project metadata.
+-   **`[tool.poetry.dependencies]`**: project runtime dependencies. Version constraints follow semantic versioning rules (e.g., `^2.28` means >=2.28.0 and <3.0.0).
+-   **`[tool.poetry.group.dev.dependencies]`**: dependencies only needed for development (like testing or linting tools). These are not installed by default when someone installs your package.
 
-## Managing Dependencies
+## Managing dependencies
 
-### Adding Dependencies
+### Adding dependencies
 
 To add a runtime dependency:
 
@@ -97,11 +97,11 @@ poetry add pytest --group dev
 
 Poetry resolves the dependencies, updates `pyproject.toml`, and modifies the `poetry.lock` file.
 
-### The `poetry.lock` File
+### The `poetry.lock` file
 
 The `poetry.lock` file records the exact versions of all installed dependencies (including transitive dependencies). **You should commit this file to your version control repository.** This ensures that everyone working on the project, as well as your CI/CD pipelines, uses the exact same versions of all dependencies, guaranteeing reproducible builds.
 
-### Installing Dependencies
+### Installing dependencies
 
 To install all dependencies defined in `pyproject.toml` (using `poetry.lock` if it exists):
 
@@ -115,7 +115,7 @@ poetry install --with dev
 
 Poetry automatically creates and manages a virtual environment for your project, typically within a central cache directory or optionally within the project directory itself (`.venv`).
 
-### Updating Dependencies
+### Updating dependencies
 
 To update dependencies to their latest allowed versions according to `pyproject.toml`:
 
@@ -128,14 +128,14 @@ poetry update requests
 This will update `poetry.lock`.
 
 
-### Run a Command Directly
+### Run a command directly
 
 ```bash
 poetry run python my_script.py
 poetry run pytest
 ```
 
-This executes the specified command within the project's virtual environment without explicitly activating a shell. This is often preferred for scripts and CI/CD pipelines (see examples in the [Automated Testing](./../ci_cd/automated_testing.md) and [Automated Releases](./../ci_cd/releases.md) guides).
+This executes the specified command within the project's virtual environment without explicitly activating a shell. This is often preferred for scripts and CI/CD pipelines (see examples in the [Automated testing](./../ci_cd/automated_testing.md) and [Automated releases](./../ci_cd/releases.md) guides).
 
 ## Conclusion
 
