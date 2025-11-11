@@ -5,7 +5,7 @@ Automating the release process ensures consistency, reduces manual effort, and i
 ## Prerequisites
 
 -   **Semantic commits:** your project **must** consistently use [Semantic commit messages](./../version_control/semantic_commits.md). `semantic-release` relies on these messages to determine the next version number and generate changelogs.
--   **Poetry project:** this guide assumes a Python project managed with [Poetry](../virtual_environments/poetry_setup.md), ready for building and publishing.
+-   **UV project:** this guide assumes a Python project managed with [UV](../virtual_environments/uv_setup.md), ready for building and publishing.
 -   **Testing workflow:** a separate GitHub Actions workflow (e.g., `run-tests.yml` as described in the [Automated testing guide](./automated_testing.md)) that runs your tests. The release workflow will trigger upon successful completion of the test workflow.
 -   **PyPI token:** a PyPI API token stored as a secret (e.g., `PYPI_TOKEN`) in your GitHub repository settings (`Settings > Secrets and variables > Actions`).
 
@@ -28,7 +28,7 @@ A typical configuration might include plugins like:
 -   `@semantic-release/commit-analyzer`: determines release type based on commits.
 -   `@semantic-release/release-notes-generator`: generates changelog content.
 -   `@semantic-release/changelog`: updates a `CHANGELOG.md` file.
--   `@semantic-release/npm` (if publishing JS packages) or `@semantic-release/exec` (to run custom commands like `poetry publish`).
+-   `@semantic-release/npm` (if publishing JS packages) or `@semantic-release/exec` (to run custom commands like `uv publish`).
 -   `@semantic-release/github`: creates GitHub releases and comments on related issues/PRs.
 -   `@semantic-release/git`: commits changes like `package.json` or `CHANGELOG.md` and pushes the Git tag.
 
@@ -43,7 +43,7 @@ A typical configuration might include plugins like:
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "poetry version ${nextRelease.version}"
+        "prepareCmd": "uv version ${nextRelease.version}"
       }
     ],
     "@semantic-release/github",
@@ -57,7 +57,7 @@ A typical configuration might include plugins like:
   ]
 }
 ```
-*(Note: In this example, `@semantic-release/exec` uses `prepareCmd` to update the `pyproject.toml` with the new version via `poetry version` (see the [Poetry guide](../virtual_environments/poetry_setup.md) for versioning commands). The updated `pyproject.toml` (along with `CHANGELOG.md`) is typically committed by the `@semantic-release/git` plugin as specified in the `assets`.)*
+*(Note: In this example, `@semantic-release/exec` uses `prepareCmd` to update the `pyproject.toml` with the new version via `uv version` (see the [UV guide](../virtual_environments/uv_setup.md#version-management) for versioning commands). The updated `pyproject.toml` (along with `CHANGELOG.md`) is typically committed by the `@semantic-release/git` plugin as specified in the `assets`.)*
 
 ## Example workflow: release after tests pass
 
@@ -93,19 +93,17 @@ jobs:
         with:
           fetch-depth: 0 # Fetch all history for semantic-release analysis
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - name: Install UV
+        uses: astral-sh/setup-uv@v6
         with:
+          enable-cache: true
           python-version: "3.10" # Or your project's Python version
 
-      - name: Setup Poetry
-        uses: snok/install-poetry@v1
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
+      - name: Install Python
+        run: uv python install
 
       - name: Install dependencies
-        run: poetry install
+        run: uv sync --locked
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -134,12 +132,12 @@ jobs:
       - name: Build and publish to PyPI
         if: success() # Typically check if semantic-release created a new version
         env:
-          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
+          UV_PUBLISH_TOKEN: ${{ secrets.PYPI_TOKEN }}
         run: |
-          poetry build
-          poetry publish
-          # See the Poetry guide for more on building and publishing:
-          # ../virtual_environments/poetry_setup.md
+          uv build
+          uv publish --token $UV_PUBLISH_TOKEN
+          # See the UV guide for more on building and publishing:
+          # ../virtual_environments/uv_setup.md#building-and-publishing-packages
 ```
 
 ### Explanation:
@@ -148,7 +146,7 @@ jobs:
 2.  **`if: github.event.workflow_run.conclusion == 'success' && contains(...)`**: ensures the job only runs if tests passed *and* the triggering commit message included `[release]`. This prevents accidental releases.
 3.  **`permissions`**: grants necessary permissions for `semantic-release` to push commits/tags and interact with GitHub releases/issues.
 4.  **Checkout**: fetches the code. `fetch-depth: 0` is crucial for `semantic-release` to analyze all relevant history.
-5.  **Setup Poetry**: standard Python project setup using [Poetry](../virtual_environments/poetry_setup.md).
+5.  **Install UV and dependencies**: installs UV with caching enabled, installs Python, and syncs project dependencies using [UV](../virtual_environments/uv_setup.md).
 6.  **Setup Node.js**: installs Node.js, as `semantic-release` is a Node.js application.
 7.  **Install semantic-release plugins**: installs `semantic-release` and its configured plugins globally using `npm`.
 8.  **Run semantic-release**: executes `semantic-release` using `npx`. Environment variables `GITHUB_TOKEN` (automatically provided by Actions) and your `PYPI_TOKEN` secret are made available. `semantic-release` reads its configuration, analyzes commits, performs versioning, generates notes, tags, creates the GitHub release, and triggers configured publishing steps (like the `@semantic-release/exec` command or other plugins).

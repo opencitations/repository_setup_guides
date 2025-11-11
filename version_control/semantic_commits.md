@@ -19,7 +19,7 @@ A semantic commit message follows this structure:
 1.  **Type:** a mandatory prefix indicating the kind of change introduced by the commit. Common types include:
     *   `feat`: introduces a new feature to the codebase (correlates with `MINOR` in semantic versioning).
     *   `fix`: patches a bug in the codebase (correlates with `PATCH` in semantic versioning).
-    *   `build`: changes that affect the build system or external dependencies (e.g., npm, poetry).
+    *   `build`: changes that affect the build system or external dependencies (e.g., npm, uv).
     *   `chore`: other changes that don't modify source or test files (e.g., updating build tasks, package manager configs).
     *   `ci`: changes to CI configuration files and scripts (e.g., GitHub Actions).
     *   `docs`: documentation-only changes.

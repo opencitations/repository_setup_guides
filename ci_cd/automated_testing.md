@@ -2,17 +2,18 @@
 
 Automating your test suite using [GitHub Actions](./github_actions_basics.md) ensures that your code is tested consistently on every push or pull request, catching regressions early.
 
-This guide demonstrates setting up a workflow to run Python tests using `pytest` with dependencies managed by [Poetry](../virtual_environments/poetry_setup.md).
+This guide demonstrates setting up a workflow to run Python tests using `pytest` with dependencies managed by [UV](../virtual_environments/uv_setup.md).
 
 ## Prerequisites
 
--   Your project uses Poetry for dependency management (`pyproject.toml` and `poetry.lock` exist).
+-   Your project uses UV for dependency management (`pyproject.toml` and `uv.lock` exist).
 -   You have tests written (e.g., using `pytest`) located in a standard directory like `tests/`.
 -   `pytest` (or your chosen test runner) is listed as a development dependency in your `pyproject.toml`:
     ```toml
-    [tool.poetry.group.dev.dependencies]
-    pytest = "^8.3.5"
-    # other dev dependencies...
+    [dependency-groups]
+    dev = [
+        "pytest>=8.3.5",
+    ]
     ```
 
 ## Example workflow: Python tests
@@ -42,28 +43,24 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v4
 
-    # Step 2: set up Python environment for the current matrix version
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
+    # Step 2: install UV with caching enabled
+    - name: Install UV
+      uses: astral-sh/setup-uv@v6
       with:
+        enable-cache: true
         python-version: ${{ matrix.python-version }}
 
-    # Step 3: install Poetry
-    # Consider caching Poetry installation for speed
-    - name: Install Poetry
-      uses: snok/install-poetry@v1
-      with:
-        virtualenvs-create: true # Instruct Poetry to create a .venv
-        virtualenvs-in-project: true # Create .venv in project root
+    # Step 3: install Python version
+    - name: Install Python
+      run: uv python install
 
     # Step 4: install dependencies, including development dependencies
     - name: Install dependencies
-        run: |
-          poetry install --with dev
+      run: uv sync --locked --all-extras --dev
 
-    # Step 5: run tests using pytest via poetry run
+    # Step 5: run tests using pytest via uv run
     - name: Run tests with pytest
-      run: poetry run pytest tests/
+      run: uv run pytest tests/
       # Replace 'tests/' with your actual test directory if different
 ```
 
@@ -76,10 +73,10 @@ jobs:
 5.  **`strategy.matrix.python-version`**: Sets up a build matrix to run the tests across multiple specified Python versions (`3.10`, `3.11`, `3.12`, `3.13`). GitHub Actions will create a separate job instance for each version.
 6.  **`steps`**: The sequence of operations:
     -   **`actions/checkout@v4`**: Checks out your repository code onto the runner.
-    -   **`actions/setup-python@v5`**: Sets up the specified Python version from the matrix.
-    -   **`snok/install-poetry@v1`**: Installs Poetry. We configure it to create the virtual environment (`.venv`) within the project directory, which simplifies caching.
-    -   **`poetry install --with dev`**: This installs all dependencies, including development ones (see the [Poetry guide](../virtual_environments/poetry_setup.md#installing-dependencies) for more on `poetry install`).
-    -   **`poetry run pytest tests/`**: Executes `pytest` within the Poetry-managed virtual environment (see the [Poetry guide](../virtual_environments/poetry_setup.md#run-a-command-directly) for `poetry run`), targeting the `tests/` directory.
+    -   **`astral-sh/setup-uv@v6`**: Installs UV with caching enabled for faster subsequent runs. The `python-version` parameter specifies which Python version to use from the matrix.
+    -   **`uv python install`**: Installs the specified Python version using UV's built-in Python version management.
+    -   **`uv sync --locked --all-extras --dev`**: This installs all dependencies, including development ones and all optional extras. The `--locked` flag ensures the `uv.lock` file is up-to-date, which is recommended for CI environments (see the [UV guide](../virtual_environments/uv_setup.md#installing-dependencies) for more on `uv sync`).
+    -   **`uv run pytest tests/`**: Executes `pytest` within the UV-managed virtual environment (see the [UV guide](../virtual_environments/uv_setup.md#running-commands) for `uv run`), targeting the `tests/` directory. UV automatically syncs the environment before running the command.
 
 ## Benefits
 
