@@ -1,7 +1,13 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import rehypeExternalLinks from 'rehype-external-links';
 
 export default defineConfig({
+	markdown: {
+		rehypePlugins: [
+			[rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }]
+		],
+	},
 	// GitHub Pages configuration
 	site: 'https://opencitations.github.io',
 	base: '/repository_setup_guides',
