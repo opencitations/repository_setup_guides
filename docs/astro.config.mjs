@@ -23,6 +23,12 @@ export default defineConfig({
 
 			sidebar: [
 				{
+					label: 'Getting started',
+					items: [
+						{ label: 'Python package template', slug: 'getting_started/python_package_template' },
+					],
+				},
+				{
 					label: 'Virtual environments',
 					items: [
 						{ label: 'UV setup', slug: 'virtual_environments/uv_setup' },
