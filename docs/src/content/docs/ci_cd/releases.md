@@ -46,21 +46,21 @@ A typical configuration might include plugins like:
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "uv version ${nextRelease.version}"
+        "prepareCmd": "uv version ${nextRelease.version} && uv lock"
       }
     ],
     "@semantic-release/github",
     [
       "@semantic-release/git",
       {
-        "assets": ["CHANGELOG.md", "pyproject.toml"],
+        "assets": ["CHANGELOG.md", "pyproject.toml", "uv.lock"],
         "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}"
       }
     ]
   ]
 }
 ```
-*(Note: In this example, `@semantic-release/exec` uses `prepareCmd` to update the `pyproject.toml` with the new version via `uv version` (see the [UV guide](/repository_setup_guides/virtual_environments/uv_setup/#version-management) for versioning commands). The updated `pyproject.toml` (along with `CHANGELOG.md`) is typically committed by the `@semantic-release/git` plugin as specified in the `assets`.)*
+*(Note: In this example, `@semantic-release/exec` uses `prepareCmd` to update the `pyproject.toml` with the new version via `uv version` and regenerate the lockfile with `uv lock` (see the [UV guide](/repository_setup_guides/virtual_environments/uv_setup/#version-management) for versioning commands). The updated `pyproject.toml`, `uv.lock`, and `CHANGELOG.md` are committed by the `@semantic-release/git` plugin as specified in the `assets`.)*
 
 ## Example workflow: release after tests pass
 
