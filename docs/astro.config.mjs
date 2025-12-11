@@ -45,6 +45,7 @@ export default defineConfig({
 					items: [
 						{ label: 'GitHub Actions basics', slug: 'ci_cd/github_actions_basics' },
 						{ label: 'Automated testing', slug: 'ci_cd/automated_testing' },
+						{ label: 'Coverage reports', slug: 'ci_cd/coverage_reports' },
 						{ label: 'Releases', slug: 'ci_cd/releases' },
 					],
 				},
